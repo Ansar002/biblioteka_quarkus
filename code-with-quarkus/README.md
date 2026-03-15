@@ -82,25 +82,19 @@ Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 
-1️⃣ ManyToMany
-Book ↔ Author
+OneToOne relacija
+Knjiga — Izdavac
+Jedna knjiga ima jednog izdavača.
 
-To znači:
+OneToMany relacije
+Clan → Pozajmica
+Jedan član može imati više pozajmica.
 
-jedna knjiga može imati više autora
+Knjiga → Pozajmica
+Jedna knjiga može imati više pozajmica.
 
-jedan autor može napisati više knjiga
-
-2️⃣ OneToMany
-Member → Loan
-
-To znači:
-
-jedan član biblioteke može imati više posudbi
-
-3️⃣ OneToMany
-Book → Loan
-
-To znači:
-
-jedna knjiga može biti posuđena mnogo puta
+ManyToMany relacije
+Knjiga ↔ Autor
+Jedna knjiga može imati više autora, a jedan autor može napisati više knjiga.
+Knjiga ↔ Kategorija
+Jedna knjiga može pripadati više kategorija, a jedna kategorija može imati više knjiga.
