@@ -3,6 +3,7 @@ package org.acme.model;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQuery(name = Clan.GET_ALL_CLANOVI, query = "SELECT c FROM Clan c")
@@ -20,7 +21,12 @@ public class Clan {
     private String ime;
     private String prezime;
 
-    @OneToMany(mappedBy = "clan")
+    @OneToOne
+    @JoinColumn(name = "clan_kartica_id")
+    private ClanKartica clanKartica;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY)
     private List<Pozajmica> pozajmice;
 
     public Long getId() {
@@ -45,6 +51,14 @@ public class Clan {
 
     public void setPrezime(String prezime) {
         this.prezime = prezime;
+    }
+
+    public ClanKartica getClanKartica() {
+        return clanKartica;
+    }
+
+    public void setClanKartica(ClanKartica clanKartica) {
+        this.clanKartica = clanKartica;
     }
 
     public List<Pozajmica> getPozajmice() {

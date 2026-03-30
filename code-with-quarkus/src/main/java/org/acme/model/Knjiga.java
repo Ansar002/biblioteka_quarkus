@@ -3,6 +3,7 @@ package org.acme.model;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQuery(name = Knjiga.GET_ALL_KNJIGE, query = "SELECT k FROM Knjiga k")
@@ -29,7 +30,7 @@ public class Knjiga {
     @JoinColumn(name = "izdavac_id")
     private Izdavac izdavac;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "knjiga_autor",
         joinColumns = @JoinColumn(name = "knjiga_id"),
@@ -37,7 +38,7 @@ public class Knjiga {
     )
     private List<Autor> autori;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "knjiga_kategorija",
         joinColumns = @JoinColumn(name = "knjiga_id"),
@@ -45,7 +46,8 @@ public class Knjiga {
     )
     private List<Kategorija> kategorije;
 
-    @OneToMany(mappedBy = "knjiga")
+    @JsonIgnore
+    @OneToMany(mappedBy = "knjiga", fetch = FetchType.LAZY)
     private List<Pozajmica> pozajmice;
 
     public Long getId() {

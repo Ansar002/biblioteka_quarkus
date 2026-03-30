@@ -3,10 +3,11 @@ package org.acme.model;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQuery(name = Autor.GET_ALL_AUTORI, query = "SELECT a FROM Autor a")
-@NamedQuery(name = Autor.GET_AUTOR_BY_IME, query = "SELECT a FROM AUTOR a WHERE a.ime = :ime")
+@NamedQuery(name = Autor.GET_AUTOR_BY_IME, query = "SELECT a FROM Autor a WHERE a.ime = :ime")
 public class Autor {
 
     public static final String GET_ALL_AUTORI = "SviAutori";
@@ -19,7 +20,8 @@ public class Autor {
     private Long id;
     private String ime;
 
-    @ManyToMany(mappedBy = "autori")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "autori", fetch = FetchType.LAZY)
     private List<Knjiga> knjige;
 
     public Long getId() {

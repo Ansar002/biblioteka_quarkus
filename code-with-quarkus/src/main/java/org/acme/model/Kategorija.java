@@ -3,6 +3,7 @@ package org.acme.model;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQuery(name = Kategorija.GET_ALL_KATEGORIJE, query = "SELECT k FROM Kategorija k")
@@ -19,7 +20,8 @@ public class Kategorija {
 
     private String naziv;
 
-    @ManyToMany(mappedBy = "kategorije")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "kategorije", fetch = FetchType.LAZY)
     private List<Knjiga> knjige;
 
     public Long getId() {
