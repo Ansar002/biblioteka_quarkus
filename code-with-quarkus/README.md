@@ -81,3 +81,7 @@ Invoke different services through REST with JSON
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+### Keyloak start
+cd C:\Users\HP\Downloads\keycloak-26.6.0\keycloak-26.6.0
+.\bin\kc.bat start-dev --http-port=8180

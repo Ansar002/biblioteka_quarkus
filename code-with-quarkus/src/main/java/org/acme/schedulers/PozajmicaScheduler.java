@@ -13,7 +13,7 @@ public class PozajmicaScheduler {
     @Inject
     EntityManager em;
 
-    @Scheduled(every = "10s")
+    @Scheduled(every = "1h")
     public void proveraPozajmica() {
         List<Pozajmica> pozajmice = em.createQuery("SELECT p FROM Pozajmica p", Pozajmica.class)
                 .getResultList();
