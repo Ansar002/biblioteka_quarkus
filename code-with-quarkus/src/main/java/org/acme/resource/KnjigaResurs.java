@@ -13,6 +13,7 @@ import org.acme.model.Pozajmica;
 import org.acme.service.KnjigaServis;
 import java.util.List;
 
+
 @Path("/knjige")
 public class KnjigaResurs {
 
@@ -68,6 +69,10 @@ public class KnjigaResurs {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
+
+
+
+
 
     @GET
     @Path("/getKnjigeByAutorId/{id}")

@@ -18,15 +18,7 @@ public class ClanServis {
 
     @Transactional
     public Clan sacuvaj(Clan clan) throws Exception {
-        if (clan == null) {
-            throw new Exception("Član nije proslijeđen");
-        }
-        if (clan.getIme() == null || clan.getIme().isEmpty()) {
-            throw new Exception("Ime je prazno");
-        }
-        if (clan.getPrezime() == null || clan.getPrezime().isEmpty()) {
-            throw new Exception("Prezime je prazno");
-        }
+        validateClan(clan);
 
         // Prvo persist kartice, pa onda clana
         if (clan.getClanKartica() != null) {
@@ -35,6 +27,12 @@ public class ClanServis {
 
         em.persist(clan);
         return clan;
+    }
+
+    @Transactional
+    public Clan azuriraj(Clan clan) throws Exception {
+        validateClan(clan);
+        return em.merge(clan);
     }
 
     public List<Clan> getAll() throws Exception {
@@ -63,6 +61,18 @@ public class ClanServis {
     public List<Pozajmica> getPozajmiceByClanId(Long clanId) throws ClanNotFoundException {
         Clan clan = getClanById(clanId);
         return clan.getPozajmice();
+    }
+
+    private void validateClan(Clan clan) throws Exception {
+        if (clan == null) {
+            throw new Exception("Član nije proslijeđen");
+        }
+        if (clan.getIme() == null || clan.getIme().isEmpty()) {
+            throw new Exception("Ime je prazno");
+        }
+        if (clan.getPrezime() == null || clan.getPrezime().isEmpty()) {
+            throw new Exception("Prezime je prazno");
+        }
     }
 }
 

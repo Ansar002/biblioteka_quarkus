@@ -1,6 +1,7 @@
 package org.acme.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,45 +30,30 @@ public class Clan {
     @OneToMany(mappedBy = "clan", fetch = FetchType.LAZY)
     private List<Pozajmica> pozajmice;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "clan_id")
+    private List<Timezone> timezones = new ArrayList<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getIme() {
-        return ime;
-    }
 
-    public void setIme(String ime) {
-        this.ime = ime;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getPrezime() {
-        return prezime;
-    }
+    public String getIme() { return ime; }
+    public void setIme(String ime) { this.ime = ime; }
 
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
-    }
+    public String getPrezime() { return prezime; }
+    public void setPrezime(String prezime) { this.prezime = prezime; }
 
-    public ClanKartica getClanKartica() {
-        return clanKartica;
-    }
+    public ClanKartica getClanKartica() { return clanKartica; }
+    public void setClanKartica(ClanKartica clanKartica) { this.clanKartica = clanKartica; }
 
-    public void setClanKartica(ClanKartica clanKartica) {
-        this.clanKartica = clanKartica;
-    }
+    public List<Pozajmica> getPozajmice() { return pozajmice; }
+    public void setPozajmice(List<Pozajmica> pozajmice) { this.pozajmice = pozajmice; }
 
-    public List<Pozajmica> getPozajmice() {
-        return pozajmice;
-    }
 
-    public void setPozajmice(List<Pozajmica> pozajmice) {
-        this.pozajmice = pozajmice;
-    }
+    public List<Timezone> getTimezones() { return timezones; }
+    public void setTimezones(List<Timezone> timezones) { this.timezones = timezones; }
 
     @Override
     public boolean equals(Object o) {
