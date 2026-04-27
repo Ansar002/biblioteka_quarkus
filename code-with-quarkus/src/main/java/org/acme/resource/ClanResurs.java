@@ -9,7 +9,6 @@ import org.acme.model.Clan;
 import org.acme.model.Pozajmica;
 import org.acme.service.ClanServis;
 import java.util.List;
-
 import jakarta.transaction.Transactional;
 import org.acme.model.Timezone;
 import org.acme.model.TimeResponse;
@@ -107,7 +106,7 @@ public class ClanResurs {
 
 
             Timezone timezone = new Timezone();
-            timezone.setIp(ip);  // IP dolazi od ipify, ne od timeapi
+            timezone.setIp(ip);  
             timezone.setTimeZone(timeResponse.getTimeZone());
             timezone.setDateTime(timeResponse.getDateTime());
             timezone.setDate(timeResponse.getDate());
