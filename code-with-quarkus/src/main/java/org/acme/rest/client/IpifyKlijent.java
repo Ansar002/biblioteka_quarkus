@@ -11,6 +11,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface IpifyKlijent {
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)   // ipify vraća plain text, ne JSON
+    @Produces(MediaType.TEXT_PLAIN)   
     String getPublicIp();
 }

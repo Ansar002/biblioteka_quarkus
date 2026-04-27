@@ -107,7 +107,7 @@ public class ClanResurs {
 
 
             Timezone timezone = new Timezone();
-            timezone.setIp(timeResponse.getIp());
+            timezone.setIp(ip);  // IP dolazi od ipify, ne od timeapi
             timezone.setTimeZone(timeResponse.getTimeZone());
             timezone.setDateTime(timeResponse.getDateTime());
             timezone.setDate(timeResponse.getDate());
