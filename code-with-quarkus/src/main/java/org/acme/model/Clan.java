@@ -34,6 +34,10 @@ public class Clan {
     @JoinColumn(name = "clan_id")
     private List<Timezone> timezones = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "clan_id")
+    private List<CurrencyEntitet> currencys = new ArrayList<>();
+
 
 
     public Long getId() { return id; }
@@ -54,6 +58,9 @@ public class Clan {
 
     public List<Timezone> getTimezones() { return timezones; }
     public void setTimezones(List<Timezone> timezones) { this.timezones = timezones; }
+
+    public List<CurrencyEntitet> getCurrencys() { return currencys; }
+    public void setCurrencys(List<CurrencyEntitet> currencys) { this.currencys = currencys; }
 
     @Override
     public boolean equals(Object o) {

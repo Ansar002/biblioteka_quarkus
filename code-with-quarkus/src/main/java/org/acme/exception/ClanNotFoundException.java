@@ -7,6 +7,6 @@ public class ClanNotFoundException extends BiblioteckaException {
     }
 
     public ClanNotFoundException(Long id) {
-        super("Član sa ID: " + id + " nije pronađen");
+        super("Član sa " + id + " nije pronađen");
     }
 }

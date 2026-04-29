@@ -5,16 +5,14 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.exception.ClanNotFoundException;
-import org.acme.model.Clan;
-import org.acme.model.Pozajmica;
+import org.acme.model.*;
 import org.acme.service.ClanServis;
-import java.util.List;
-import jakarta.transaction.Transactional;
-import org.acme.model.Timezone;
-import org.acme.model.TimeResponse;
 import org.acme.rest.client.IpifyKlijent;
 import org.acme.rest.client.TimeApi;
+import org.acme.rest.client.valutaKlijent;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import jakarta.transaction.Transactional;
+import java.util.List;
 
 @Path("/clanovi")
 public class ClanResurs {
@@ -29,6 +27,10 @@ public class ClanResurs {
     @Inject
     @RestClient
     private TimeApi timeApi;
+
+    @Inject
+    @RestClient
+    private valutaKlijent valutaKlijent;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -97,16 +99,13 @@ public class ClanResurs {
     @Transactional
     public Response getTimezoneByIP(@QueryParam("userId") Long userId) {
         try {
-
             Clan clan = clanServis.getClanById(userId);
-
 
             String ip = ipifyKlijent.getPublicIp();
             TimeResponse timeResponse = timeApi.getCurrentTimeByIp(ip);
 
-
             Timezone timezone = new Timezone();
-            timezone.setIp(ip);  
+            timezone.setIp(ip);
             timezone.setTimeZone(timeResponse.getTimeZone());
             timezone.setDateTime(timeResponse.getDateTime());
             timezone.setDate(timeResponse.getDate());
@@ -114,11 +113,41 @@ public class ClanResurs {
             timezone.setDayOfWeek(timeResponse.getDayOfWeek());
             timezone.setDstActive(timeResponse.isDstActive());
 
-
             clan.getTimezones().add(timezone);
             clanServis.azuriraj(clan);
 
             return Response.ok().entity(clan).build();
+        } catch (ClanNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/currencyConversion")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response currencyConversion(@QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("value") double value, @QueryParam("userId") Long userId) {
+        try {
+            Clan clan = clanServis.getClanById(userId);
+
+            CurrencyResponse currencyResponse = valutaKlijent.getRates(from, to);
+
+            currencyResponse.setValue(value);
+            currencyResponse.setConvertedValue(value * currencyResponse.getRate());
+
+            CurrencyEntitet entitet = new CurrencyEntitet();
+            entitet.setFromCurrency(currencyResponse.getFrom());
+            entitet.setToCurrency(currencyResponse.getTo());
+            entitet.setRate(currencyResponse.getRate());
+            entitet.setValue(currencyResponse.getValue());
+            entitet.setConvertedValue(currencyResponse.getConvertedValue());
+
+            clan.getCurrencys().add(entitet);
+            clanServis.azuriraj(clan);
+
+            return Response.ok().entity(currencyResponse).build();
         } catch (ClanNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
