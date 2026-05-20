@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
 
 @Entity
 @NamedQuery(name = Knjiga.GET_ALL_KNJIGE, query = "SELECT k FROM Knjiga k")
@@ -49,6 +50,17 @@ public class Knjiga {
     @JsonIgnore
     @OneToMany(mappedBy = "knjiga", fetch = FetchType.LAZY)
     private List<Pozajmica> pozajmice;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "knjiga_uploaded_files",
+            joinColumns = @JoinColumn(name = "knjiga_id"),
+            inverseJoinColumns = @JoinColumn(name = "uploaded_file_id")
+    )
+    private List<UploadedFile> uploadedFiles = new ArrayList<>();
+
+    public List<UploadedFile> getUploadedFiles() { return uploadedFiles; }
+    public void setUploadedFiles(List<UploadedFile> uploadedFiles) { this.uploadedFiles = uploadedFiles; }
 
     public Long getId() {
         return id;
