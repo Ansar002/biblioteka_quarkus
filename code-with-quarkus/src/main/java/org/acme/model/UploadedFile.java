@@ -3,6 +3,7 @@
 package org.acme.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.File;
 
 @Entity
@@ -17,6 +18,7 @@ public class UploadedFile {
     private String filename;
 
     @Transient
+    @JsonIgnore
     private File file;
 
     public Long getId() { return id; }

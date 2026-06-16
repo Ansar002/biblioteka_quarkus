@@ -23,7 +23,6 @@ public class KnjigaResurs {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/addKnjiga")
-    @RolesAllowed("admin")
     public Response addKnjiga(Knjiga knjiga) {
         try {
             knjigaServis.sacuvaj(knjiga);

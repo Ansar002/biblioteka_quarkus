@@ -31,6 +31,7 @@ public class Knjiga {
     @JoinColumn(name = "izdavac_id")
     private Izdavac izdavac;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "knjiga_autor",
@@ -39,6 +40,7 @@ public class Knjiga {
     )
     private List<Autor> autori;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "knjiga_kategorija",
