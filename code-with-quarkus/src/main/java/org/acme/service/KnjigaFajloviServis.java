@@ -29,13 +29,13 @@ public class KnjigaFajloviServis {
     public UploadedFile uploadFajl(Long knjigaId, String filename, Path tempFile)
             throws KnjigaNotFoundException, IOException {
 
-        // 1. Učitaj knjigu
+       
         Knjiga knjiga = em.find(Knjiga.class, knjigaId);
         if (knjiga == null) {
             throw new KnjigaNotFoundException("Knjiga sa ID: " + knjigaId + " nije pronađena!");
         }
 
-        // 2. Pripremi upload direktorij
+        
         Path uploadPath = Paths.get(UPLOAD_DIR);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -43,7 +43,7 @@ public class KnjigaFajloviServis {
 
         Path targetPath = uploadPath.resolve(filename);
 
-        // 3. Provjeri da li fajl već postoji
+        
         if (Files.exists(targetPath)) {
             UploadedFile postojeci = em.createQuery(
                             "SELECT u FROM UploadedFile u WHERE u.filename = :filename", UploadedFile.class)
@@ -68,28 +68,29 @@ public class KnjigaFajloviServis {
             return null;
         }
 
-        // 4. Kopiraj fajl na ciljnu lokaciju
+       
         Files.copy(tempFile, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-        // 5. Kreiraj UploadedFile entitet
+        
         UploadedFile novi = new UploadedFile();
         novi.setFilename(targetPath.toString());
         em.persist(novi);
 
-        // 6. Poveži s knjigom
+        
         knjiga.getUploadedFiles().add(novi);
         em.merge(knjiga);
 
         return novi;
     }
 
+    @Transactional
     public Knjiga getKnjigaSaFajlovima(Long knjigaId) throws KnjigaNotFoundException {
         Knjiga knjiga = em.find(Knjiga.class, knjigaId);
         if (knjiga == null) {
             throw new KnjigaNotFoundException("Knjiga sa ID: " + knjigaId + " nije pronađena!");
         }
 
-        // Učitaj File objekte iz filename putanja u @Transient polje
+        
         for (UploadedFile uf : knjiga.getUploadedFiles()) {
             if (uf.getFilename() != null) {
                 File f = new File(uf.getFilename());

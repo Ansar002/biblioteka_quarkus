@@ -59,8 +59,12 @@ public class Knjiga {
     )
     private List<UploadedFile> uploadedFiles = new ArrayList<>();
 
-    public List<UploadedFile> getUploadedFiles() { return uploadedFiles; }
-    public void setUploadedFiles(List<UploadedFile> uploadedFiles) { this.uploadedFiles = uploadedFiles; }
+    public List<UploadedFile> getUploadedFiles() {
+         return uploadedFiles; 
+    }
+    public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
+         this.uploadedFiles = uploadedFiles;
+    }
 
     public Long getId() {
         return id;
